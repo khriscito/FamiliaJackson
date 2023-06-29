@@ -35,6 +35,22 @@ def handle_hello():
         "family": members
     }
 
+    @app.route('/member/<int:member_id>', methods=['GET'])
+def get_member(member_id):
+    member = jackson_family.get_member(member_id)
+    return jsonify(member),200
+
+@app.route('/member', methods=['POST'])
+def add_member():
+    new_member_data= request.json
+    jackson_family.add_member(**new_member_data)
+    return "miembro agregado"
+
+@app.route('/member/<int:member_id>', methods=["DELETE"])
+def delete_member(member_id):
+    response= jackson_family.delete_member(member_id)
+    return jsonify({"done":True})
+
 
     return jsonify(response_body), 200
 
